@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>set theory — lifting, considered.</title>
+<meta name="description" content="a weightlifting tracker built around the set. beta opening 2026. join the waitlist at settheory.fit.">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/inter@5.0.16/400.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/inter@5.0.16/500.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/inter@5.0.16/600.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/inter@5.0.16/900.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/jetbrains-mono@5.0.18/500.css">
+
+<style>
+  :root{
+    --charcoal:#111111;
+    --charcoal-dark:#0D0D0F;
+    --cream:#F8F6F1;
+    --cream-dark:#F5F3EE;
+    --white:#FFFFFF;
+    --grey-warm:#5F5E5A;
+    --grey-mute:#94918A;
+    --coral:#DD5A40;
+    --success:#5C8B6E;
+    --error:#B85450;
+    --border:rgba(17,17,17,0.08);
+    --border-strong:rgba(17,17,17,0.14);
+    --border-on-dark:rgba(245,243,238,0.10);
+    --font-display:"Inter",-apple-system,"Helvetica Neue",sans-serif;
+    --font-ui:"Inter",-apple-system,"Helvetica Neue",sans-serif;
+    --font-mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;
+    --pad:clamp(22px,6vw,80px);
+    --maxw:1180px;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+
+  body{
+    font-family:var(--font-ui);
+    font-weight:400;
+    font-size:16px;
+    line-height:1.6;
+    color:var(--charcoal);
+    background:var(--cream);
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+    overflow-x:hidden;
+  }
+
+  a{color:inherit;text-decoration:none;}
+
+  .wrap{max-width:var(--maxw);margin:0 auto;padding-left:var(--pad);padding-right:var(--pad);width:100%;}
+
+  /* ---------- eyebrow / mono caption ---------- */
+  .eyebrow{
+    font-family:var(--font-mono);
+    font-weight:500;
+    font-size:12px;
+    letter-spacing:0.14em;
+    text-transform:lowercase;
+    color:var(--grey-mute);
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+  }
+  .eyebrow::before{
+    content:"";
+    width:22px;
+    height:1px;
+    background:currentColor;
+    opacity:0.7;
+  }
+  .eyebrow.no-rule::before{display:none;}
+
+  /* coral period — the one accent in display type */
+  .dot{color:var(--coral);font-style:italic;}
+
+  /* ---------- top bar ---------- */
+  .topbar{
+    position:absolute;
+    top:0;left:0;right:0;
+    z-index:10;
+  }
+  .topbar .wrap{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding-top:clamp(20px,3.4vw,32px);
+    padding-bottom:0;
+  }
+  .mark{
+    font-family:var(--font-display);
+    font-weight:900;
+    letter-spacing:-0.045em;
+    line-height:1;
+    font-size:21px;
+    color:var(--charcoal);
+    white-space:nowrap;
+  }
+  .mark .br{color:var(--coral);}
+  .topbar .nav-cta{
+    font-family:var(--font-mono);
+    font-weight:500;
+    font-size:12px;
+    letter-spacing:0.06em;
+    color:var(--grey-warm);
+    padding:9px 0;
+    border-bottom:1px solid var(--border-strong);
+    transition:color .18s,border-color .18s;
+  }
+  .topbar .nav-cta:hover{color:var(--coral);border-color:var(--coral);}
+
+  /* ---------- hero ---------- */
+  .hero{
+    position:relative;
+    min-height:100svh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    padding-top:clamp(120px,22vh,200px);
+    padding-bottom:clamp(40px,8vh,72px);
+  }
+  .hero .eyebrow{margin-bottom:clamp(26px,5vh,40px);}
+  .hero h1{
+    font-family:var(--font-display);
+    font-weight:900;
+    letter-spacing:-0.045em;
+    line-height:0.92;
+    font-size:clamp(3.4rem,18vw,9.5rem);
+    color:var(--charcoal);
+    text-wrap:balance;
+    margin-bottom:clamp(26px,5vh,40px);
+  }
+  .hero h1 .l2{display:block;}
+  .hero-sub{
+    font-size:clamp(1.05rem,3.6vw,1.5rem);
+    line-height:1.45;
+    color:var(--grey-warm);
+    max-width:30ch;
+    letter-spacing:-0.01em;
+    margin-bottom:clamp(34px,6vh,48px);
+  }
+  .hero-actions{
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    gap:18px 24px;
+  }
+  .btn{
+    font-family:var(--font-ui);
+    font-weight:600;
+    font-size:16px;
+    letter-spacing:0;
+    line-height:1;
+    cursor:pointer;
+    border:1px solid transparent;
+    border-radius:12px;
+    transition:transform .06s ease,opacity .18s ease,background .18s ease,color .18s ease;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:10px;
+  }
+  .btn:active{transform:scale(0.985);}
+  .btn-primary{background:var(--coral);color:var(--cream);padding:16px 26px;}
+  .btn-primary:hover{opacity:0.92;}
+  .btn-ghost{
+    background:transparent;
+    color:var(--charcoal);
+    font-family:var(--font-mono);
+    font-weight:500;
+    font-size:13px;
+    letter-spacing:0.04em;
+    padding:6px 0;
+  }
+  .btn-ghost .arrow{transition:transform .2s ease;color:var(--grey-mute);}
+  .btn-ghost:hover .arrow{transform:translateX(4px);color:var(--coral);}
+
+  .scrollcue{
+    position:absolute;
+    left:var(--pad);
+    bottom:clamp(20px,4vh,32px);
+    font-family:var(--font-mono);
+    font-size:11px;
+    letter-spacing:0.16em;
+    color:var(--grey-mute);
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .scrollcue .ln{
+    width:1px;height:30px;background:var(--border-strong);
+    position:relative;overflow:hidden;
+  }
+  .scrollcue .ln::after{
+    content:"";position:absolute;inset:0;background:var(--coral);
+    transform:translateY(-100%);
+    animation:cue 2.4s cubic-bezier(.7,0,.3,1) infinite;
+  }
+  @keyframes cue{
+    0%{transform:translateY(-100%);}
+    45%{transform:translateY(0);}
+    100%{transform:translateY(100%);}
+  }
+
+  /* ---------- generic section ---------- */
+  section.band{padding:clamp(72px,13vh,150px) 0;}
+  .section-head{margin-bottom:clamp(40px,7vh,72px);}
+  .section-head .eyebrow{margin-bottom:22px;}
+  h2{
+    font-family:var(--font-display);
+    font-weight:900;
+    letter-spacing:-0.04em;
+    line-height:0.98;
+    font-size:clamp(2.1rem,7.4vw,4.4rem);
+    text-wrap:balance;
+  }
+
+  /* ---------- what it is ---------- */
+  .whatis{background:var(--cream);}
+  .whatis-grid{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:clamp(44px,7vw,72px);
+    align-items:center;
+  }
+  .whatis-copy h2{margin-bottom:28px;}
+  .whatis-copy p{
+    font-size:clamp(1.02rem,2.4vw,1.2rem);
+    line-height:1.6;
+    color:var(--grey-warm);
+    max-width:42ch;
+    margin-bottom:18px;
+  }
+  .whatis-copy p strong{color:var(--charcoal);font-weight:600;}
+  .pull{
+    margin-top:34px;
+    padding-top:26px;
+    border-top:1px solid var(--border);
+    font-family:var(--font-display);
+    font-weight:900;
+    letter-spacing:-0.03em;
+    line-height:1.05;
+    font-size:clamp(1.4rem,4.6vw,2rem);
+    color:var(--charcoal);
+    max-width:18ch;
+  }
+
+  /* product proof: session card on a device-ish slab */
+  .proof{
+    display:flex;
+    justify-content:center;
+  }
+  .device{
+    width:100%;
+    max-width:360px;
+    background:var(--white);
+    border:1px solid var(--border);
+    border-radius:30px;
+    padding:14px;
+    box-shadow:0 1px 0 rgba(17,17,17,0.04),0 30px 60px -28px rgba(17,17,17,0.30),0 12px 24px -18px rgba(17,17,17,0.22);
+  }
+  .device-screen{
+    background:var(--cream);
+    border-radius:20px;
+    padding:26px 22px 30px;
+    overflow:hidden;
+  }
+  .ds-top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:30px;
+  }
+  .ds-top .day{font-family:var(--font-mono);font-size:11px;letter-spacing:0.1em;color:var(--grey-mute);}
+  .ds-top .pr{
+    font-family:var(--font-mono);font-size:11px;font-weight:500;
+    color:var(--coral);
+    background:rgba(221,90,64,0.10);
+    padding:4px 10px;border-radius:999px;letter-spacing:0.02em;
+  }
+  .ds-title{
+    font-family:var(--font-display);font-weight:900;letter-spacing:-0.03em;
+    font-size:46px;line-height:0.95;margin-bottom:26px;
+  }
+  .ds-title .dot{font-style:italic;}
+  .ex{
+    display:flex;align-items:flex-start;justify-content:space-between;
+    gap:16px;
+    padding:15px 0;
+    border-top:1px solid var(--border);
+  }
+  .ex-name{font-weight:600;font-size:15px;letter-spacing:-0.01em;margin-bottom:5px;}
+  .ex-spec{font-family:var(--font-mono);font-size:12px;color:var(--grey-warm);letter-spacing:0.01em;}
+  .ex-prev{font-family:var(--font-mono);font-size:12px;color:var(--grey-mute);white-space:nowrap;padding-top:2px;}
+  .ex-prev.done{color:var(--success);}
+  .ds-cta{
+    margin-top:24px;
+    width:100%;
+    background:var(--coral);color:var(--cream);
+    font-weight:600;font-size:15px;
+    padding:15px;border-radius:14px;text-align:center;
+    letter-spacing:0;
+  }
+
+  /* ---------- principles (charcoal band) ---------- */
+  .principles{
+    background:var(--charcoal-dark);
+    color:var(--cream-dark);
+  }
+  .principles .eyebrow{color:var(--grey-mute);}
+  .principles h2{color:var(--cream-dark);}
+  .principles .section-head{max-width:24ch;}
+  .plist{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:0;
+    border-top:1px solid var(--border-on-dark);
+  }
+  .principle{
+    display:grid;
+    grid-template-columns:auto 1fr;
+    gap:18px 22px;
+    padding:clamp(30px,5vw,44px) 0;
+    border-bottom:1px solid var(--border-on-dark);
+    align-items:start;
+  }
+  .principle .num{
+    font-family:var(--font-mono);
+    font-weight:500;
+    font-size:13px;
+    letter-spacing:0.04em;
+    color:var(--coral);
+    padding-top:8px;
+  }
+  .principle h3{
+    font-family:var(--font-display);
+    font-weight:900;
+    letter-spacing:-0.03em;
+    line-height:1;
+    font-size:clamp(1.7rem,5.6vw,2.7rem);
+    color:var(--cream-dark);
+    margin-bottom:14px;
+  }
+  .principle h3 .dot{font-style:italic;}
+  .principle p{
+    font-size:clamp(1rem,2.3vw,1.12rem);
+    line-height:1.6;
+    color:var(--grey-mute);
+    max-width:46ch;
+  }
+
+  /* ---------- waitlist ---------- */
+  .waitlist{background:var(--cream);text-align:center;}
+  .waitlist .inner{max-width:680px;margin:0 auto;}
+  .waitlist .eyebrow{justify-content:center;margin-bottom:24px;}
+  .waitlist h2{margin-bottom:22px;}
+  .waitlist .lede{
+    font-size:clamp(1.05rem,2.6vw,1.25rem);
+    line-height:1.55;
+    color:var(--grey-warm);
+    max-width:34ch;
+    margin:0 auto clamp(38px,6vh,48px);
+  }
+  form.capture{
+    display:flex;
+    gap:12px;
+    max-width:480px;
+    margin:0 auto;
+    flex-direction:column;
+  }
+  .field{position:relative;flex:1;text-align:left;}
+  .capture input[type="email"]{
+    width:100%;
+    font-family:var(--font-ui);
+    font-size:16px;
+    color:var(--charcoal);
+    background:var(--white);
+    border:1px solid var(--border-strong);
+    border-radius:12px;
+    padding:17px 18px;
+    transition:border-color .18s,box-shadow .18s;
+  }
+  .capture input::placeholder{color:var(--grey-mute);}
+  .capture input:focus{outline:none;border-color:var(--coral);box-shadow:0 0 0 3px rgba(221,90,64,0.14);}
+  .capture input.invalid{border-color:var(--error);}
+  .capture .btn-primary{padding:17px 26px;white-space:nowrap;}
+  .formnote{
+    min-height:18px;
+    margin-top:14px;
+    font-family:var(--font-mono);
+    font-size:12px;
+    letter-spacing:0.02em;
+    color:var(--grey-mute);
+    text-align:center;
+  }
+  .formnote.err{color:var(--error);}
+
+  /* success state */
+  .success{
+    display:none;
+    max-width:480px;
+    margin:0 auto;
+    flex-direction:column;
+    align-items:center;
+    gap:18px;
+    text-align:center;
+  }
+  .success.show{display:flex;}
+  .capture.hide{display:none;}
+  .check{
+    width:54px;height:54px;border-radius:999px;
+    background:var(--coral);
+    display:flex;align-items:center;justify-content:center;
+    flex:none;
+  }
+  .check svg{width:26px;height:26px;}
+  .success .s-title{
+    font-family:var(--font-display);font-weight:900;letter-spacing:-0.03em;
+    font-size:clamp(1.6rem,5.4vw,2.2rem);line-height:1;color:var(--charcoal);
+  }
+  .success .s-title .dot{font-style:italic;}
+  .success .s-sub{
+    font-size:1rem;color:var(--grey-warm);max-width:32ch;line-height:1.55;
+  }
+  .success .s-email{font-family:var(--font-mono);font-size:12px;color:var(--grey-mute);letter-spacing:0.02em;}
+
+  /* ---------- footer ---------- */
+  footer{
+    background:var(--charcoal-dark);
+    color:var(--cream-dark);
+    padding:clamp(56px,9vh,90px) 0 clamp(34px,5vh,44px);
+  }
+  .foot-top{
+    display:flex;
+    flex-direction:column;
+    gap:34px;
+    padding-bottom:clamp(40px,6vh,56px);
+    border-bottom:1px solid var(--border-on-dark);
+  }
+  footer .mark{color:var(--cream-dark);font-size:30px;}
+  .foot-line{
+    font-family:var(--font-display);font-weight:900;font-style:normal;
+    letter-spacing:-0.03em;
+    font-size:clamp(1.5rem,5vw,2.1rem);
+    line-height:1.05;
+    color:var(--cream-dark);
+    max-width:16ch;
+  }
+  .foot-line .dot{font-style:italic;}
+  .foot-cols{
+    display:flex;
+    flex-wrap:wrap;
+    gap:14px 40px;
+  }
+  .foot-cols a,.foot-cols span{
+    font-family:var(--font-mono);
+    font-size:13px;
+    letter-spacing:0.03em;
+    color:var(--grey-mute);
+    transition:color .18s;
+  }
+  .foot-cols a:hover{color:var(--coral);}
+  .foot-bottom{
+    margin-top:clamp(28px,4vh,36px);
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:space-between;
+    gap:12px;
+    font-family:var(--font-mono);
+    font-size:11px;
+    letter-spacing:0.04em;
+    color:var(--grey-mute);
+  }
+
+  /* ---------- reveal ---------- */
+  .js .reveal{opacity:0;transform:translateY(16px);transition:opacity .7s cubic-bezier(.2,.7,.2,1),transform .7s cubic-bezier(.2,.7,.2,1);}
+  .js .reveal.in{opacity:1;transform:none;}
+  .js .reveal.d1{transition-delay:.08s;}
+  .js .reveal.d2{transition-delay:.16s;}
+  .js .reveal.d3{transition-delay:.24s;}
+  @media (prefers-reduced-motion:reduce){
+    .js .reveal{opacity:1;transform:none;transition:none;}
+    .scrollcue .ln::after{animation:none;}
+    html{scroll-behavior:auto;}
+  }
+
+  /* ---------- responsive: scale up ---------- */
+  @media (min-width:680px){
+    form.capture{flex-direction:row;}
+    .hero h1 .l2{display:inline;}
+  }
+  @media (min-width:880px){
+    .whatis-grid{grid-template-columns:1.05fr 0.95fr;}
+    .whatis.alt .whatis-copy{order:2;}
+    .plist{
+      grid-template-columns:repeat(3,1fr);
+      border-top:none;
+      gap:0;
+    }
+    .principle{
+      grid-template-columns:1fr;
+      border-bottom:none;
+      border-top:1px solid var(--border-on-dark);
+      padding:36px 36px 8px 0;
+      gap:0;
+    }
+    .principle .num{padding-top:0;margin-bottom:36px;}
+    .principle .pbody{}
+    .principle:not(:first-child){padding-left:36px;}
+  }
+  @media (min-width:1180px){
+    .hero h1{font-size:10rem;}
+  }
+</style>
+</head>
+<body>
+
+<!-- top bar -->
+<header class="topbar">
+  <div class="wrap">
+    <a class="mark" href="#top" aria-label="set theory home"><span class="br">{</span>set theory<span class="br">}</span></a>
+    <a class="nav-cta" href="#waitlist">join the waitlist</a>
+  </div>
+</header>
+
+<!-- ===== hero ===== -->
+<section class="hero" id="top" data-screen-label="hero">
+  <div class="wrap">
+    <span class="eyebrow reveal">weightlifting tracker · beta 2026</span>
+    <h1 class="reveal d1">consistency<span class="l2"> compounds<span class="dot">.</span></span></h1>
+    <p class="hero-sub reveal d2">a weightlifting tracker built around the set. premium, considered, weightlifting only.</p>
+    <div class="hero-actions reveal d3">
+      <a class="btn btn-primary" href="#waitlist">request early access</a>
+      <a class="btn btn-ghost" href="#what">see how it works <span class="arrow">→</span></a>
+    </div>
+  </div>
+  <div class="scrollcue" aria-hidden="true">
+    <span class="ln"></span>
+    <span>scroll</span>
+  </div>
+</section>
+
+<!-- ===== what it is ===== -->
+<section class="band whatis" id="what" data-screen-label="what-it-is">
+  <div class="wrap">
+    <div class="whatis-grid">
+      <div class="whatis-copy reveal">
+        <span class="eyebrow" style="margin-bottom:22px;">what it is</span>
+        <h2>a workout tracker for people who actually lift<span class="dot">.</span></h2>
+        <p>no streak confetti. no everything-app bloat. no AI promising your dream physique. just the barbell, the set, and a record of the work — rendered with the kind of restraint the rest of the category forgot.</p>
+        <p><strong>design-led where every competitor is feature-led.</strong> the apple of hypertrophy trackers — welcoming to beginners, credible to lifters who already know their numbers.</p>
+        <div class="pull">the set is the foundation<span class="dot">.</span></div>
+      </div>
+
+      <div class="proof reveal d2">
+        <div class="device" role="img" aria-label="set theory session screen showing a push day with bench press, incline dumbbell press and cable fly">
+          <div class="device-screen">
+            <div class="ds-top">
+              <span class="day">monday · push</span>
+              <span class="pr">new pr</span>
+            </div>
+            <div class="ds-title">push<span class="dot">.</span></div>
+            <div class="ex">
+              <div>
+                <div class="ex-name">bench press</div>
+                <div class="ex-spec">4 × 8 · rir 2</div>
+              </div>
+              <div class="ex-prev done">195 × 8</div>
+            </div>
+            <div class="ex">
+              <div>
+                <div class="ex-name">incline db press</div>
+                <div class="ex-spec">3 × 10 · rir 2</div>
+              </div>
+              <div class="ex-prev">last: 50 × 10</div>
+            </div>
+            <div class="ex">
+              <div>
+                <div class="ex-name">cable fly</div>
+                <div class="ex-spec">3 × 12 · rir 1</div>
+              </div>
+              <div class="ex-prev">last: 25 × 12</div>
+            </div>
+            <div class="ds-cta">log set</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== principles ===== -->
+<section class="band principles" id="principles" data-screen-label="principles">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow">principles</span>
+      <h2>three rules. held quietly<span class="dot">.</span></h2>
+    </div>
+    <div class="plist">
+      <div class="principle reveal">
+        <div class="num">01</div>
+        <div class="pbody">
+          <h3>weightlifting only<span class="dot">.</span></h3>
+          <p>one practice, done well. we don't track your steps, your sleep, or your macros. the barbell is the whole product.</p>
+        </div>
+      </div>
+      <div class="principle reveal d1">
+        <div class="num">02</div>
+        <div class="pbody">
+          <h3>considered<span class="dot">.</span></h3>
+          <p>every screen earns its place. monochrome-led, one warm accent, numbers that respect your data. restraint is the feature.</p>
+        </div>
+      </div>
+      <div class="principle reveal d2">
+        <div class="num">03</div>
+        <div class="pbody">
+          <h3>it compounds<span class="dot">.</span></h3>
+          <p>set by set, week by week. small consistent contributions, exponential return. the math of training is the math of compounding.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== waitlist ===== -->
+<section class="band waitlist" id="waitlist" data-screen-label="waitlist">
+  <div class="wrap">
+    <div class="inner">
+      <span class="eyebrow no-rule reveal">beta · 2026</span>
+      <h2 class="reveal d1">be early<span class="dot">.</span></h2>
+      <p class="lede reveal d2">we're opening the beta to a small first group of lifters. leave your email and we'll reach out when the doors open.</p>
+
+      <form class="capture reveal d3" id="waitlist-form" novalidate>
+        <div class="field">
+          <input type="email" id="email" name="email" inputmode="email" autocomplete="email" placeholder="you@email.com" aria-label="email address" required>
+        </div>
+        <button type="submit" class="btn btn-primary">request access</button>
+      </form>
+      <div class="formnote reveal d3" id="formnote" role="status" aria-live="polite">no spam. one email when beta opens.</div>
+
+      <div class="success" id="success">
+        <div class="check" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#F8F6F1" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        </div>
+        <div class="s-title">you're in<span class="dot">.</span></div>
+        <div class="s-sub">we'll email you when the beta opens in 2026. until then — keep the bar moving.</div>
+        <div class="s-email" id="success-email"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== footer ===== -->
+<footer data-screen-label="footer">
+  <div class="wrap">
+    <div class="foot-top">
+      <a class="mark" href="#top" aria-label="set theory"><span class="br">{</span>set theory<span class="br">}</span></a>
+      <div class="foot-line">lifting, considered<span class="dot">.</span></div>
+      <div class="foot-cols">
+        <a href="https://instagram.com/settheoryapp" target="_blank" rel="noopener">instagram ↗</a>
+        <a href="https://tiktok.com/@settheoryapp" target="_blank" rel="noopener">tiktok ↗</a>
+        <a href="https://x.com/settheoryapp" target="_blank" rel="noopener">x ↗</a>
+        <a href="#waitlist">join the waitlist</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>settheory.fit</span>
+      <span>© 2026 set theory · beta opening 2026</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.documentElement.classList.add('js');
+
+  /* reveal on scroll */
+  (function(){
+    var els = Array.prototype.slice.call(document.querySelectorAll('.reveal'));
+    if(!('IntersectionObserver' in window)){
+      els.forEach(function(el){el.classList.add('in');});
+      return;
+    }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){
+          e.target.classList.add('in');
+          io.unobserve(e.target);
+        }
+      });
+    },{threshold:0.12,rootMargin:'0px 0px -8% 0px'});
+    els.forEach(function(el){io.observe(el);});
+  })();
+
+  /* waitlist capture */
+  (function(){
+    var KEY = 'settheory_waitlist_email';
+    var form = document.getElementById('waitlist-form');
+    var input = document.getElementById('email');
+    var note = document.getElementById('formnote');
+    var success = document.getElementById('success');
+    var successEmail = document.getElementById('success-email');
+    var re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    function showSuccess(email){
+      form.classList.add('hide');
+      note.style.display = 'none';
+      success.classList.add('show');
+      successEmail.textContent = email;
+    }
+
+    var saved = null;
+    try { saved = localStorage.getItem(KEY); } catch(e){}
+    if(saved){ showSuccess(saved); }
+
+    input.addEventListener('input', function(){
+      input.classList.remove('invalid');
+      note.classList.remove('err');
+      note.textContent = 'no spam. one email when beta opens.';
+    });
+
+    form.addEventListener('submit', function(ev){
+      ev.preventDefault();
+      var val = (input.value || '').trim().toLowerCase();
+      if(!re.test(val)){
+        input.classList.add('invalid');
+        note.classList.add('err');
+        note.textContent = 'enter a valid email.';
+        input.focus();
+        return;
+      }
+      try { localStorage.setItem(KEY, val); } catch(e){}
+      showSuccess(val);
+    });
+  })();
+</script>
+
+<template id="__bundler_thumbnail">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <rect width="100" height="100" fill="#F8F6F1"/>
+    <text x="50" y="60" text-anchor="middle" font-family="Inter, sans-serif" font-weight="900" font-size="30" letter-spacing="-1.5"><tspan fill="#DD5A40">{</tspan><tspan fill="#111111">ST</tspan><tspan dx="2" fill="#DD5A40">}</tspan></text>
+  </svg>
+</template>
+
+</body>
+</html>
