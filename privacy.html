@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>privacy — set theory</title>
+<meta name="description" content="set theory privacy policy. how we collect, store, and protect your information.">
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/inter@5.0.16/400.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/inter@5.0.16/500.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/inter@5.0.16/900.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fontsource/jetbrains-mono@5.0.18/500.css">
+
+<style>
+  :root{
+    --charcoal:#111111;
+    --charcoal-dark:#0D0D0F;
+    --cream:#F8F6F1;
+    --cream-dark:#F5F3EE;
+    --white:#FFFFFF;
+    --grey-warm:#5F5E5A;
+    --grey-mute:#94918A;
+    --coral:#DD5A40;
+    --border:rgba(17,17,17,0.08);
+    --border-strong:rgba(17,17,17,0.14);
+    --border-on-dark:rgba(245,243,238,0.10);
+    --font-display:"Inter",-apple-system,"Helvetica Neue",sans-serif;
+    --font-mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,monospace;
+    --pad:clamp(22px,6vw,80px);
+    --maxw:840px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+  body{
+    font-family:var(--font-display);
+    font-weight:400;
+    font-size:16px;
+    line-height:1.6;
+    color:var(--charcoal);
+    background:var(--cream);
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  a{color:inherit;text-decoration:none;}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding-left:var(--pad);padding-right:var(--pad);width:100%;}
+  .dot{color:var(--coral);font-style:italic;}
+
+  /* top bar */
+  .topbar{padding-top:clamp(20px,3.4vw,32px);padding-bottom:clamp(20px,3.4vw,32px);}
+  .topbar .wrap{display:flex;align-items:center;justify-content:space-between;}
+  .mark{
+    font-family:var(--font-display);
+    font-weight:900;
+    letter-spacing:-0.045em;
+    line-height:1;
+    font-size:21px;
+    color:var(--charcoal);
+    white-space:nowrap;
+  }
+  .mark .br{color:var(--coral);}
+  .nav-back{
+    font-family:var(--font-mono);
+    font-weight:500;
+    font-size:12px;
+    letter-spacing:0.06em;
+    color:var(--grey-warm);
+    padding:9px 0;
+    border-bottom:1px solid var(--border-strong);
+    transition:color .18s,border-color .18s;
+  }
+  .nav-back:hover{color:var(--coral);border-color:var(--coral);}
+
+  /* page header */
+  .page-head{padding-top:clamp(40px,8vh,80px);padding-bottom:clamp(40px,6vh,56px);}
+  .page-head .eyebrow{
+    font-family:var(--font-mono);
+    font-weight:500;
+    font-size:12px;
+    letter-spacing:0.14em;
+    color:var(--grey-mute);
+    text-transform:lowercase;
+    margin-bottom:18px;
+    display:inline-block;
+  }
+  .page-head h1{
+    font-family:var(--font-display);
+    font-weight:900;
+    letter-spacing:-0.04em;
+    line-height:0.98;
+    font-size:clamp(2.4rem,7vw,4rem);
+    color:var(--charcoal);
+    text-transform:lowercase;
+  }
+
+  /* policy content container */
+  .policy{
+    background:var(--white);
+    border:0.5px solid var(--border);
+    border-radius:16px;
+    padding:clamp(28px,5vw,52px);
+    margin-bottom:clamp(56px,9vh,90px);
+  }
+  /* Termly inner HTML provides its own typography (Arial). We override
+     a few things so it sits cleanly inside our brand wrapper. */
+  .policy h1{display:none;}                            /* hide Termly's own H1, we use page-head */
+  .policy [data-custom-class='title']{display:none;}   /* same */
+  .policy h2{margin-top:36px;margin-bottom:12px;}
+  .policy h3{margin-top:24px;margin-bottom:8px;}
+  .policy ul, .policy ol{margin-left:1.4em;margin-bottom:12px;}
+  .policy a{color:var(--coral);text-decoration:underline;}
+  .policy table{margin:12px 0;}
+
+  /* footer (matches landing page) */
+  footer{
+    background:var(--charcoal-dark);
+    color:var(--cream-dark);
+    padding:clamp(56px,9vh,90px) 0 clamp(34px,5vh,44px);
+  }
+  .foot-top{
+    display:flex;
+    flex-direction:column;
+    gap:34px;
+    padding-bottom:clamp(40px,6vh,56px);
+    border-bottom:1px solid var(--border-on-dark);
+  }
+  footer .mark{color:var(--cream-dark);font-size:30px;}
+  .foot-line{
+    font-family:var(--font-display);font-weight:900;
+    letter-spacing:-0.03em;line-height:1.05;
+    font-size:clamp(1.5rem,5vw,2.1rem);
+    color:var(--cream-dark);
+    max-width:16ch;
+  }
+  .foot-cols{display:flex;flex-wrap:wrap;gap:14px 40px;}
+  .foot-cols a, .foot-cols span{
+    font-family:var(--font-mono);
+    font-size:13px;
+    letter-spacing:0.03em;
+    color:var(--grey-mute);
+    transition:color .18s;
+  }
+  .foot-cols a:hover{color:var(--coral);}
+  .foot-bottom{
+    margin-top:clamp(28px,4vh,36px);
+    display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;
+    font-family:var(--font-mono);font-size:11px;letter-spacing:0.04em;color:var(--grey-mute);
+  }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap">
+    <a class="mark" href="/" aria-label="set theory home"><span class="br">{</span>set theory<span class="br">}</span></a>
+    <a class="nav-back" href="/">← back to home</a>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="page-head">
+    <span class="eyebrow">legal · set theory</span>
+    <h1>privacy<span class="dot">.</span></h1>
+  </div>
+
+  <article class="policy">
+    <!-- Termly HTML begins -->
+    <style>
+      [data-custom-class='body'], [data-custom-class='body'] * {
+              background: transparent !important;
+            }
+    [data-custom-class='title'], [data-custom-class='title'] * {
+              font-family: Arial !important;
+    font-size: 26px !important;
+    color: #000000 !important;
+            }
+    [data-custom-class='subtitle'], [data-custom-class='subtitle'] * {
+              font-family: Arial !important;
+    color: #595959 !important;
+    font-size: 14px !important;
+            }
+    [data-custom-class='heading_1'], [data-custom-class='heading_1'] * {
+              font-family: Arial !important;
+    font-size: 19px !important;
+    color: #000000 !important;
+            }
+    [data-custom-class='heading_2'], [data-custom-class='heading_2'] * {
+              font-family: Arial !important;
+    font-size: 17px !important;
+    color: #000000 !important;
+            }
+    [data-custom-class='body_text'], [data-custom-class='body_text'] * {
+              color: #595959 !important;
+    font-size: 14px !important;
+    font-family: Arial !important;
+            }
+    [data-custom-class='link'], [data-custom-class='link'] * {
+              color: #3030F1 !important;
+    font-size: 14px !important;
+    font-family: Arial !important;
+    word-break: break-word !important;
+            }
+    </style>
+
+    <div data-custom-class="body">
+      <div><strong><span style="font-size: 26px;"><span data-custom-class="title"><h1>PRIVACY POLICY</h1></span></span></strong></div>
+      <div><span style="color: rgb(127, 127, 127);"><strong><span style="font-size: 15px;"><span data-custom-class="subtitle">Last updated June 02, 2026</span></span></strong></span></div>
+
+      <div><br></div>
+      <div style="line-height: 1.5;"><span data-custom-class="body_text">This Privacy Notice for Set Theory ("<strong>we</strong>," "<strong>us</strong>," or "<strong>our</strong>"), describes how and why we might access, collect, store, use, and/or share ("<strong>process</strong>") your personal information when you use our services ("<strong>Services</strong>"), including when you:</span></div>
+      <ul>
+        <li data-custom-class="body_text" style="line-height: 1.5;"><span data-custom-class="body_text">Download and use our mobile application (Set Theory), or any other application of ours that links to this Privacy Notice</span></li>
+        <li data-custom-class="body_text" style="line-height: 1.5;"><span data-custom-class="body_text">Engage with us in other related ways, including any marketing or events</span></li>
+      </ul>
+      <div style="line-height: 1.5;"><span data-custom-class="body_text"><strong>Questions or concerns?</strong> Reading this Privacy Notice will help you understand your privacy rights and choices. We are responsible for making decisions about how your personal information is processed. If you do not agree with our policies and practices, please do not use our Services. If you still have any questions or concerns, please contact us at <a data-custom-class="link" href="mailto:hello@settheory.fit">hello@settheory.fit</a>.</span></div>
+
+      <div><br></div>
+      <h2 data-custom-class="heading_1">SUMMARY OF KEY POINTS</h2>
+      <div style="line-height: 1.5;"><span data-custom-class="body_text"><strong><em>This summary provides key points from our Privacy Notice. </em></strong><em>See the table of contents below for more detail.</em></span></div>
+      <div><br></div>
+      <div style="line-height: 1.5;"><span data-custom-class="body_text"><strong>What personal information do we process?</strong> When you visit, use, or navigate our Services, we may process personal information depending on how you interact with us and the Services, the choices you make, and the products and features you use.</span></div>
+      <div><br></div>
+      <div style="line-height: 1.5;"><span data-custom-class="body_text"><strong>Do we process any sensitive personal information?</strong> We do not process sensitive personal information.</span></div>
+      <div><br></div>
+      <div style="line-height: 1.5;"><span data-custom-class="body_text"><strong>Do we collect any information from third parties?</strong> We do not collect any information from third parties.</span></div>
+      <div><br></div>
+      <div style="line-height: 1.5;"><span data-custom-class="body_text"><strong>How do we process your information?</strong> We process your information to provide, improve, and administer our Services, communicate with you, for security and fraud prevention, and to comply with law. We may also process your information for other purposes with your consent.</span></div>
+      <div><br></div>
+      <div style="line-height: 1.5;"><span data-custom-class="body_text"><strong>How do we keep your information safe?</strong> We have adequate organizational and technical processes and procedures in place to protect your personal information. However, no electronic transmission over the internet or information storage technology can be guaranteed to be 100% secure.</span></div>
+      <div><br></div>
+      <div style="line-height: 1.5;"><span data-custom-class="body_text"><strong>What are your rights?</strong> Depending on where you are located geographically, the applicable privacy law may mean you have certain rights regarding your personal information.</span></div>
+
+      <div><br></div>
+      <h2 data-custom-class="heading_1">1. WHAT INFORMATION DO WE COLLECT?</h2>
+      <h3 data-custom-class="heading_2">Personal information you disclose to us</h3>
+      <div style="line-height: 1.5;"><span data-custom-class="body_text"><strong><em>In Short: </em></strong><em>We collect personal information that you provide to us.</em></span></div>
+      <div><br></div>
+      <div style="line-height: 1.5;"><span data-custom-class="body_text">We collect personal information that you voluntarily provide to us when you register on the Services, express an interest in obtaining information about us or our products and Services, when you participate in activities on the Services, or otherwise when you contact us.</span></div>
+      <div><br></div>
+      <div style="line-height: 1.5;"><span data-custom-class="body_text"><strong>Personal Information Provided by You.</strong> The personal information we collect may include the following:</span></div>
+      <ul>
+        <li data-custom-class="body_text" style="line-height: 1.5;"><span data-custom-class="body_text">names</span></li>
+        <li data-custom-class="body_text" style="line-height: 1.5;"><span data-custom-class="body_text">email addresses</span></li>
+        <li data-custom-class="body_text" style="line-height: 1.5;"><span data-custom-class="body_text">usernames</span></li>
+        <li data-custom-class="body_text" style="line-height: 1.5;"><span data-custom-class="body_text">passwords</span></li>
+      </ul>
+      <div style="line-height: 1.5;"><span data-custom-class="body_text"><strong>Sensitive Information.</strong> We do not process sensitive information.</span></div>
+      <div><br></div>
+      <h3 data-custom-class="heading_2">Application Data</h3>
+      <div style="line-height: 1.5;"><span data-custom-class="body_text">If you use our application(s), we also may collect the following information if you choose to provide us with access or permission:</span></div>
+      <ul>
+        <li data-custom-class="body_text" style="line-height: 1.5;"><span data-custom-class="body_text"><em>Push Notifications.</em> We may request to send you push notifications regarding your account or certain features of the application(s). If you wish to opt out, you may turn them off in your device's settings.</span></li>
+      </ul>
+      <div style="line-height: 1.5;"><span data-custom-class="body_text">This information is primarily needed to maintain the security and operation of our application(s), for troubleshooting, and for our internal analytics and reporting purposes.</span></div>
+      <div><br></div>
+      <div style="line-height: 1.5;"><span data-custom-class="body_text">All personal information that you provide to us must be true, complete, and accurate, and you must notify us of any changes to such personal information.</span></div>
+
+      <div><br></div>
+      <h2 data-custom-class="heading_1">2. HOW DO WE PROCESS YOUR INFORMATION?</h2>
+      <div style="line-height: 1.5;"><span data-custom-class="body_text"><strong><em>In Short: </em></strong><em>We process your information to provide, improve, and administer our Services, communicate with you, for security and fraud prevention, and to comply with law. We may also process your information for other purposes with your consent.</em></span></div>
+      <div><br></div>
+      <div style="line-height: 1.5;"><span data-custom-class="body_text"><strong>We process your personal information for a variety of reasons, depending on how you interact with our Services, including:</strong></span></div>
+      <ul>
+        <li data-custom-class="body_text" style="line-height: 1.5;"><span data-custom-class="body_text"><strong>To facilitate account creation and authentication and otherwise manage user accounts.</strong> We may process your information so you can create and log in to your account, as well as keep your account in working order.</span></li>
+        <li data-custom-class="body_text" style="line-height: 1.5;"><span data-custom-class="body_text"><strong>To comply with our legal obligations.</strong> We may process your information to comply with our legal obligations, respond to legal requests, and exercise, establish, or defend our legal rights.</span></li>
+      </ul>
+
+      <div><br></div>
+      <h2 data-custom-class="heading_1">3. WHEN AND WITH WHOM DO WE SHARE YOUR PERSONAL INFORMATION?</h2>
+      <div style="line-height: 1.5;"><span data-custom-class="body_text"><strong><em>In Short:</em></strong><em> We may share information in specific situations described in this section and/or with the following third parties.</em></span></div>
+      <div><br></div>
+      <div style="line-height: 1.5;"><span data-custom-class="body_text">We may need to share your personal information in the following situations:</span></div>
+      <ul>
+        <li data-custom-class="body_text" style="line-height: 1.5;"><span data-custom-class="body_text"><strong>Business Transfers.</strong> We may share or transfer your information in connection with, or during negotiations of, any merger, sale of company assets, financing, or acquisition of all or a portion of our business to another company.</span></li>
+      </ul>
+
+      <div><br></div>
+      <h2 data-custom-class="heading_1">4. DO WE OFFER ARTIFICIAL INTELLIGENCE-BASED PRODUCTS?</h2>
+      <div style="line-height: 1.5;"><span data-custom-class="body_text"><strong><em>In Short: </em></strong><em>We offer products, features, or tools powered by artificial intelligence, machine learning, or similar technologies.</em></span></div>
+      <div><br></div>
+      <div style="line-height: 1.5;"><span data-custom-class="body_text">As part of our Services, we offer products, features, or tools powered by artificial intelligence, machine learning, or similar technologies (collectively, "AI Products"). These tools are designed to enhance your experience and provide you with innovative solutions. The terms in this Privacy Notice govern your use of the AI Products within our Services.</span></div>
+      <div><br></div>
+      <h3 data-custom-class="heading_2">Use of AI Technologies</h3>
+      <div style="line-height: 1.5;"><span data-custom-class="body_text">We provide the AI Products through third-party service providers ("AI Service Providers"), including Anthropic. As outlined in this Privacy Notice, your input, output, and personal information will be shared with and processed by these AI Service Providers to enable your use of our AI Products. You must not use the AI Products in any way that violates the terms or policies of any AI Service Provider.</span></div>
+      <div><br></div>
+      <h3 data-custom-class="heading_2">Our AI Products</h3>
+      <div style="line-height: 1.5;"><span data-custom-class="body_text">Our AI Products are designed for the following functions:</span></div>
+      <ul>
+        <li data-custom-class="body_text" style="line-height: 1.5;"><span data-custom-class="body_text">AI research</span></li>
+      </ul>
+      <h3 data-custom-class="heading_2">How We Process Your Data Using AI</h3>
+      <div style="line-height: 1.5;"><span data-custom-class="body_text">All personal information processed using our AI Products is handled in line with our Privacy Notice and our agreement with third parties.</span></div>
+
+      <div><br></div>
+      <h2 data-custom-class="heading_1">5. HOW LONG DO WE KEEP YOUR INFORMATION?</h2>
+      <div style="line-height: 1.5;"><span data-custom-class="body_text"><strong><em>In Short: </em></strong><em>We keep your information for as long as necessary to fulfill the purposes outlined in this Privacy Notice unless otherwise required by law.</em></span></div>
+      <div><br></div>
+      <div style="line-height: 1.5;"><span data-custom-class="body_text">We will only keep your personal information for as long as it is necessary for the purposes set out in this Privacy Notice, unless a longer retention period is required or permitted by law. No purpose in this notice will require us keeping your personal information for longer than the period of time in which users have an account with us.</span></div>
+      <div><br></div>
+      <div style="line-height: 1.5;"><span data-custom-class="body_text">When we have no ongoing legitimate business need to process your personal information, we will either delete or anonymize such information.</span></div>
+
+      <div><br></div>
+      <h2 data-custom-class="heading_1">6. HOW DO WE KEEP YOUR INFORMATION SAFE?</h2>
+      <div style="line-height: 1.5;"><span data-custom-class="body_text"><strong><em>In Short: </em></strong><em>We aim to protect your personal information through a system of organizational and technical security measures.</em></span></div>
+      <div><br></div>
+      <div style="line-height: 1.5;"><span data-custom-class="body_text">We have implemented appropriate and reasonable technical and organizational security measures designed to protect the security of any personal information we process. However, despite our safeguards and efforts to secure your information, no electronic transmission over the Internet or information storage technology can be guaranteed to be 100% secure.</span></div>
+
+      <div><br></div>
+      <h2 data-custom-class="heading_1">7. DO WE COLLECT INFORMATION FROM MINORS?</h2>
+      <div style="line-height: 1.5;"><span data-custom-class="body_text"><strong><em>In Short:</em></strong><em> We do not knowingly collect data from or market to children under 18 years of age.</em></span></div>
+      <div><br></div>
+      <div style="line-height: 1.5;"><span data-custom-class="body_text">We do not knowingly collect, solicit data from, or market to children under 18 years of age, nor do we knowingly sell such personal information. By using the Services, you represent that you are at least 18 or that you are the parent or guardian of such a minor and consent to such minor dependent's use of the Services. If we become aware of any data we may have collected from children under age 18, please contact us at <a data-custom-class="link" href="mailto:hello@settheory.fit">hello@settheory.fit</a>.</span></div>
+
+      <div><br></div>
+      <h2 data-custom-class="heading_1">8. WHAT ARE YOUR PRIVACY RIGHTS?</h2>
+      <div style="line-height: 1.5;"><span data-custom-class="body_text"><strong><em>In Short:</em></strong><em> You may review, change, or terminate your account at any time, depending on your country, province, or state of residence.</em></span></div>
+      <div><br></div>
+      <div style="line-height: 1.5;"><span data-custom-class="body_text"><strong><u>Withdrawing your consent:</u></strong> If we are relying on your consent to process your personal information, you have the right to withdraw your consent at any time. You can withdraw your consent at any time by contacting us using the contact details provided in section 12 below.</span></div>
+      <div><br></div>
+      <h3 data-custom-class="heading_2">Account Information</h3>
+      <div style="line-height: 1.5;"><span data-custom-class="body_text">If you would at any time like to review or change the information in your account or terminate your account, you can:</span></div>
+      <ul>
+        <li data-custom-class="body_text" style="line-height: 1.5;"><span data-custom-class="body_text">Log in to your account settings and update your user account.</span></li>
+        <li data-custom-class="body_text" style="line-height: 1.5;"><span data-custom-class="body_text">Contact us using the contact information provided.</span></li>
+      </ul>
+      <div style="line-height: 1.5;"><span data-custom-class="body_text">Upon your request to terminate your account, we will deactivate or delete your account and information from our active databases. However, we may retain some information in our files to prevent fraud, troubleshoot problems, assist with any investigations, enforce our legal terms and/or comply with applicable legal requirements.</span></div>
+
+      <div><br></div>
+      <h2 data-custom-class="heading_1">9. CONTROLS FOR DO-NOT-TRACK FEATURES</h2>
+      <div style="line-height: 1.5;"><span data-custom-class="body_text">Most web browsers and some mobile operating systems and mobile applications include a Do-Not-Track ("DNT") feature or setting you can activate to signal your privacy preference not to have data about your online browsing activities monitored and collected. At this stage, no uniform technology standard for recognizing and implementing DNT signals has been finalized. As such, we do not currently respond to DNT browser signals or any other mechanism that automatically communicates your choice not to be tracked online.</span></div>
+      <div><br></div>
+      <div style="line-height: 1.5;"><span data-custom-class="body_text">California law requires us to let you know how we respond to web browser DNT signals. Because there currently is not an industry or legal standard for recognizing or honoring DNT signals, we do not respond to them at this time.</span></div>
+
+      <div><br></div>
+      <h2 data-custom-class="heading_1">10. DO UNITED STATES RESIDENTS HAVE SPECIFIC PRIVACY RIGHTS?</h2>
+      <div style="line-height: 1.5;"><span data-custom-class="body_text"><strong><em>In Short: </em></strong><em>If you are a resident of California, Colorado, Connecticut, Delaware, Florida, Indiana, Iowa, Kentucky, Maryland, Minnesota, Montana, Nebraska, New Hampshire, New Jersey, Oregon, Rhode Island, Tennessee, Texas, Utah, or Virginia, you may have the right to request access to and receive details about the personal information we maintain about you and how we have processed it, correct inaccuracies, get a copy of, or delete your personal information.</em></span></div>
+      <div><br></div>
+      <h3 data-custom-class="heading_2">Your Rights</h3>
+      <div style="line-height: 1.5;"><span data-custom-class="body_text">You have rights under certain US state data protection laws. These rights include:</span></div>
+      <ul>
+        <li data-custom-class="body_text" style="line-height: 1.5;"><span data-custom-class="body_text"><strong>Right to know</strong> whether or not we are processing your personal data</span></li>
+        <li data-custom-class="body_text" style="line-height: 1.5;"><span data-custom-class="body_text"><strong>Right to access </strong>your personal data</span></li>
+        <li data-custom-class="body_text" style="line-height: 1.5;"><span data-custom-class="body_text"><strong>Right to correct </strong>inaccuracies in your personal data</span></li>
+        <li data-custom-class="body_text" style="line-height: 1.5;"><span data-custom-class="body_text"><strong>Right to request</strong> the deletion of your personal data</span></li>
+        <li data-custom-class="body_text" style="line-height: 1.5;"><span data-custom-class="body_text"><strong>Right to obtain a copy </strong>of the personal data you previously shared with us</span></li>
+        <li data-custom-class="body_text" style="line-height: 1.5;"><span data-custom-class="body_text"><strong>Right to non-discrimination</strong> for exercising your rights</span></li>
+        <li data-custom-class="body_text" style="line-height: 1.5;"><span data-custom-class="body_text"><strong>Right to opt out</strong> of the processing of your personal data if it is used for targeted advertising, the sale of personal data, or profiling.</span></li>
+      </ul>
+      <h3 data-custom-class="heading_2">How to Exercise Your Rights</h3>
+      <div style="line-height: 1.5;"><span data-custom-class="body_text">To exercise these rights, you can email us at <a data-custom-class="link" href="mailto:hello@settheory.fit">hello@settheory.fit</a> or refer to the contact details at the bottom of this document.</span></div>
+
+      <div><br></div>
+      <h2 data-custom-class="heading_1">11. DO WE MAKE UPDATES TO THIS NOTICE?</h2>
+      <div style="line-height: 1.5;"><span data-custom-class="body_text"><em><strong>In Short: </strong>Yes, we will update this notice as necessary to stay compliant with relevant laws.</em></span></div>
+      <div><br></div>
+      <div style="line-height: 1.5;"><span data-custom-class="body_text">We may update this Privacy Notice from time to time. The updated version will be indicated by an updated "Revised" date at the top of this Privacy Notice. If we make material changes to this Privacy Notice, we may notify you either by prominently posting a notice of such changes or by directly sending you a notification.</span></div>
+
+      <div><br></div>
+      <h2 data-custom-class="heading_1">12. HOW CAN YOU CONTACT US ABOUT THIS NOTICE?</h2>
+      <div style="line-height: 1.5;"><span data-custom-class="body_text">If you have questions or comments about this notice, you may email us at <a data-custom-class="link" href="mailto:hello@settheory.fit">hello@settheory.fit</a> or contact us by post at:</span></div>
+      <div><br></div>
+      <div style="line-height: 1.5;"><span data-custom-class="body_text">Set Theory<br>254 Jeter Street<br>Redwood City, CA 94062<br>United States</span></div>
+
+      <div><br></div>
+      <h2 data-custom-class="heading_1">13. HOW CAN YOU REVIEW, UPDATE, OR DELETE THE DATA WE COLLECT FROM YOU?</h2>
+      <div style="line-height: 1.5;"><span data-custom-class="body_text">Based on the applicable laws of your country or state of residence in the US, you may have the right to request access to the personal information we collect from you, details about how we have processed it, correct inaccuracies, or delete your personal information. You may also have the right to withdraw your consent to our processing of your personal information.</span></div>
+      <div><br></div>
+      <div style="line-height: 1.5;"><span data-custom-class="body_text">To request to review, update, or delete your personal information, please email us at <a data-custom-class="link" href="mailto:hello@settheory.fit">hello@settheory.fit</a>.</span></div>
+    </div>
+
+    <br>
+    <div><span data-custom-class="body_text">This Privacy Policy was created using Termly's </span><a href="https://termly.io/products/privacy-policy-generator/" target="_blank" rel="noopener external" data-custom-class="link">Privacy Policy Generator</a>.</div>
+    <!-- Termly HTML ends -->
+  </article>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <a class="mark" href="/" aria-label="set theory"><span class="br">{</span>set theory<span class="br">}</span></a>
+      <div class="foot-line">lifting, considered<span class="dot">.</span></div>
+      <div class="foot-cols">
+        <a href="https://instagram.com/settheoryapp" target="_blank" rel="noopener">instagram ↗</a>
+        <a href="https://tiktok.com/@settheoryapp" target="_blank" rel="noopener">tiktok ↗</a>
+        <a href="https://x.com/settheoryapp" target="_blank" rel="noopener">x ↗</a>
+        <a href="/">home</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>settheory.fit</span>
+      <span>© 2026 set theory</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
